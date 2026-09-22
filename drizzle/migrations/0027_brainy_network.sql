@@ -1,0 +1,1 @@
+ALTER TABLE "part_categories" DROP CONSTRAINT "part_categories_part_id_category_id_pk";

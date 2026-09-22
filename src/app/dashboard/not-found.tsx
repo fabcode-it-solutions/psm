@@ -1,0 +1,21 @@
+import React from "react";
+import NotFoundContent from "@/component/global/NotFoundContent";
+
+const NotFound: React.FC = () => {
+  return (
+    <>
+      <main
+        className="flex-grow flex justify-center items-center min-h-screen"
+        style={{
+          backgroundImage: "url('/assets/images/sign-pattren.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <NotFoundContent />
+      </main>
+    </>
+  );
+};
+
+export default NotFound;

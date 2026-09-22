@@ -1,0 +1,464 @@
+@import "tailwindcss";
+
+@import "swiper/css";
+@import "swiper/css/navigation";
+
+:root {
+  --background: #fafafa;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --font-supreme: 'Supreme';
+  --font-audiowide: 'Audiowide';
+  --font-sofia-sans: 'Sofia Sans';
+  --font-abel: 'Abel';
+  --font-inter: 'Inter';
+  --font-montserrat: var(--font-montserrat);
+  --font-poppins: var(--font-poppins);
+  --color-accent-100: #54dc00;
+  --color-light-100: #efefef;
+  --color-light-200: #f4f4f4;
+  --color-light-300: #fafafa;
+  --color-gray-2: #4f4f4f;
+  --color-gray-3: #828282;
+  --color-gray-4: #bdbdbd;
+  --color-gray-5: #606060;
+  --color-gray-1: #e8e8e8;
+  --color-dark-blue-cm: #002029;
+  --color-dark-100: #01212a;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --breakpoint-des-xlg: 1566px;
+  --breakpoint-des-lg: 1440px;
+  --breakpoint-des-md: 1366px;
+  --breakpoint-des-sm: 1280px;
+  --breakpoint-des-xs: 1199px;
+  --breakpoint-tab-lg: 1024px;
+  --breakpoint-tab-md: 990px;
+  --breakpoint-tab-sm: 768px;
+  --breakpoint-mb-xl: 749px;
+  --breakpoint-mb-sm: 390px;
+  --breakpoint-mb-md: 680px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  @apply font-supreme;
+}
+
+button{
+  @apply cursor-pointer;
+}
+span.tooltipArrow {
+  left: 14px !important;
+}
+.sidebar {
+  height: 100vh; /* Full height of the viewport */
+  overflow: hidden; /* Prevent scrolling */
+}
+
+.admin-panel *::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #093c4c;
+}
+
+.admin-panel *::-webkit-scrollbar {
+  width: 2px;
+  background-color: #093c4c;
+}
+
+.admin-panel *::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
+}
+
+.slider-arrows button.swiper-button-disabled {
+  background: transparent;
+  border-color: rgb(0 0 0 / 8%);
+}
+
+.slider-arrows button.swiper-button-disabled svg {
+  fill: #e8e8e8;
+}
+.product-image-slider span.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #e8e8e8;
+  border-radius: 0;
+  opacity: 1;
+  margin: 0 !important;
+}
+.product-image-slider .swiper-pagination {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  bottom: 14px !important;
+}
+.product-image-slider
+  span.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background: #54dc00;
+}
+.overlay-10 {
+  background: linear-gradient(0deg, rgba(0, 32, 41, 0.6), rgba(0, 32, 41, 0.6)),
+    linear-gradient(
+      180deg,
+      rgba(0, 32, 41, 0) 28.65%,
+      rgba(0, 32, 41, 0.6) 100%
+    );
+}
+
+.clip-inset-0 {
+  clipPath: inset(0)
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 17px;
+  height: 25px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #54dc00;
+  height: 25px;
+  border-radius: 8px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.custom-scrollbar {
+  scrollbar-color: #54dc00 #f1f1f1;
+}
+.custom-scrollbar::-webkit-scrollbar-button {
+  background-color: #002029 !important; /* Color of up/down buttons */
+  height: 10px;              /* Size of the button */
+}
+
+
+
+.TooltipContent {
+	border-radius: 4px;
+	padding: 10px 15px;
+	font-size: 15px;
+	line-height: 1;
+	color: var(--violet-11);
+	background-color: white;
+	box-shadow:
+		hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+		hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+	user-select: none;
+	animation-duration: 400ms;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	will-change: transform, opacity;
+}
+.TooltipContent[data-state="delayed-open"][data-side="top"] {
+	animation-name: slideDownAndFade;
+}
+.TooltipContent[data-state="delayed-open"][data-side="right"] {
+	animation-name: slideLeftAndFade;
+}
+.TooltipContent[data-state="delayed-open"][data-side="bottom"] {
+	animation-name: slideUpAndFade;
+}
+.TooltipContent[data-state="delayed-open"][data-side="left"] {
+	animation-name: slideRightAndFade;
+}
+
+.TooltipArrow {
+	fill: white;
+}
+
+.IconButton {
+	font-family: inherit;
+	border-radius: 100%;
+	height: 35px;
+	width: 35px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--violet-11);
+	background-color: white;
+	box-shadow: 0 2px 10px var(--black-a7);
+	user-select: none;
+}
+.IconButton:hover {
+	background-color: var(--violet-3);
+}
+.IconButton:focus {
+	box-shadow: 0 0 0 2px black;
+}
+
+@keyframes slideUpAndFade {
+	from {
+		opacity: 0;
+		transform: translateY(2px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideRightAndFade {
+	from {
+		opacity: 0;
+		transform: translateX(-2px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes slideDownAndFade {
+	from {
+		opacity: 0;
+		transform: translateY(-2px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideLeftAndFade {
+	from {
+		opacity: 0;
+		transform: translateX(2px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+
+
+
+.AccordionContent {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 300ms cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.AccordionContent[data-state='open'] {
+  max-height: 100%
+}
+
+.AccordionContent[data-state='closed'] {
+  max-height: 0;
+}
+
+@keyframes slideDown {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--accordion-height);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: var(--accordion-height);
+  }
+  to {
+    height: 0;
+  }
+}
+.bg-stripe-pattern {
+  background-image: repeating-linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.2) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+.bg-stripes {
+  background-color: #002029;
+  background-image: repeating-linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.2) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+
+@layer utilities {
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+
+  .animate-accordion-down {
+    animation: accordion-down 300ms ease-out;
+  }
+
+  .animate-accordion-up {
+    animation: accordion-up 300ms ease-out;
+  }
+}
+
+
+.TabsTrigger[data-state="active"] {
+background-color: #002029;
+color: #FFFFFF;
+}
+[type="number"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+[type="number"] {
+    appearance: none;
+}
+
+.jodit-toolbar-editor-collection.jodit-toolbar-editor-collection_mode_horizontal.jodit-toolbar-editor-collection_size_middle {
+    background: #0f2a32;
+}
+
+
+.jodit_theme_dark.jodit-container:not(.jodit_inline) .jodit-workplace {
+    background: #0f2a32;
+}
+
+
+
+.jodit .jodit-workplace > div {
+    background: #0f2a32;
+}
+
+.jodit-dialog_theme_dark .jodit-popup__content, .jodit_theme_dark .jodit-popup__content {
+    background: #0f2a32  !important;
+    border: 1px solid #000 !important;
+    border-radius: 6px;
+}
+
+.jodit-dialog_theme_dark .jodit-toolbar-button:hover:not([disabled]), .jodit-dialog_theme_dark .jodit-toolbar-button__button:hover:not([disabled]), .jodit-dialog_theme_dark .jodit-toolbar-button__text:hover:not([disabled]), .jodit-dialog_theme_dark .jodit-toolbar-button__trigger:hover:not([disabled]), .jodit-dialog_theme_dark .jodit-toolbar-select:hover:not([disabled]), .jodit-dialog_theme_dark .jodit-toolbar-select__button:hover:not([disabled]), .jodit-dialog_theme_dark .jodit-toolbar-select__text:hover:not([disabled]), .jodit-dialog_theme_dark .jodit-toolbar-select__trigger:hover:not([disabled]), .jodit-dialog_theme_dark .jodit-ui-button:hover:not([disabled]), .jodit-dialog_theme_dark .jodit-ui-button__button:hover:not([disabled]), .jodit-dialog_theme_dark .jodit-ui-button__text:hover:not([disabled]), .jodit-dialog_theme_dark .jodit-ui-button__trigger:hover:not([disabled]), .jodit_theme_dark .jodit-toolbar-button:hover:not([disabled]), .jodit_theme_dark .jodit-toolbar-button__button:hover:not([disabled]), .jodit_theme_dark .jodit-toolbar-button__text:hover:not([disabled]), .jodit_theme_dark .jodit-toolbar-button__trigger:hover:not([disabled]), .jodit_theme_dark .jodit-toolbar-select:hover:not([disabled]), .jodit_theme_dark .jodit-toolbar-select__button:hover:not([disabled]), .jodit_theme_dark .jodit-toolbar-select__text:hover:not([disabled]), .jodit_theme_dark .jodit-toolbar-select__trigger:hover:not([disabled]), .jodit_theme_dark .jodit-ui-button:hover:not([disabled]), .jodit_theme_dark .jodit-ui-button__button:hover:not([disabled]), .jodit_theme_dark .jodit-ui-button__text:hover:not([disabled]), .jodit_theme_dark .jodit-ui-button__trigger:hover:not([disabled]) {
+    background: #00202a  !important;
+    color: #fff  !important;
+}
+
+.jodit-container:not(.jodit_inline) .jodit-wysiwyg {
+@apply w-full px-3 py-2  !text-light-100  !font-sofia-sans;      
+          
+}
+
+.jodit-status-bar.jodit-status-bar_resize-handle_true {
+    background: #0f2a32 !important;
+    border-top-color: #20363c !important;
+}
+
+
+.jodit-dialog_theme_dark.jodit-container, .jodit_theme_dark.jodit-container {
+    border: 1px solid #20363c !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+.jodit-dialog_theme_dark .jodit-toolbar__box:not(:empty) .jodit-toolbar-editor-collection:after, .jodit_theme_dark .jodit-toolbar__box:not(:empty) .jodit-toolbar-editor-collection:after {
+    background: #20363c !important;
+}
+.rte ul, .rte ol,
+.jodit-container:not(.jodit_inline) .jodit-wysiwyg ol,.jodit-container:not(.jodit_inline) .jodit-wysiwyg ul {
+    list-style: auto !important;
+    padding: 10px 20px !important;
+}
+.rte p +*{
+  margin-bottom: 14px;
+}
+
+.jodit-popup {
+    z-index: 1 !important;
+}
+.jodit-toolbar__box{
+      border: #20363c !important;
+}
+input{
+  outline:  none;
+}
+
+
+
+.range-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 48px;
+  width: 48px;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.range-thumb::-moz-range-thumb {
+  height: 48px;
+  width: 48px;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+
+.rc-slider-handle {
+  opacity: 1.8 !important;
+}
+.rc-slider-handle-1 {
+  margin-left: 0px !important;
+}
+
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+.text-overflow-splice{
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+max-width: 170px;
+}
+
+
+.swiper-slides.swiper-slide-thumb-active > div {
+    opacity: 1;
+}
+
+.swiper-slides  > div {
+    transition: 0.5s;
+    opacity: 0.5;
+    cursor: pointer;
+}
+[data-radix-popper-content-wrapper]{
+  z-index: 9993 !important;
+}

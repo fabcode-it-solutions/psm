@@ -1,0 +1,1 @@
+ALTER TABLE "metafields" DROP CONSTRAINT "metafield_unique";

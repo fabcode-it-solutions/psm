@@ -1,0 +1,1 @@
+ALTER TABLE "user_reports" ADD COLUMN "status_record" text;

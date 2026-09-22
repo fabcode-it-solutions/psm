@@ -1,0 +1,1 @@
+ALTER TABLE "users" RENAME COLUMN "chat_id" TO "notification_id";

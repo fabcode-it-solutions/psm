@@ -1,0 +1,336 @@
+/**
+* @license
+*
+* Font Family: Supreme
+* Designed by: Jérémie Hornus, Ilya Naumoff
+* URL: https://www.fontshare.com/fonts/supreme
+* © 2025 Indian Type Foundry
+*
+* Supreme Thin 
+* Supreme ThinItalic 
+* Supreme Extralight 
+* Supreme ExtralightItalic 
+* Supreme Light 
+* Supreme LightItalic 
+* Supreme Italic 
+* Supreme Medium 
+* Supreme MediumItalic 
+* Supreme Bold 
+* Supreme BoldItalic 
+* Supreme Extrabold 
+* Supreme ExtraboldItalic 
+* Supreme Variable (Variable font)
+* Supreme VariableItalic (Variable font)
+
+*
+*/
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-Thin.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-Thin.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-ThinItalic.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-ThinItalic.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-ThinItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-Extralight.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-Extralight.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-Extralight.ttf') format('truetype');
+  font-weight: 200;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-ExtralightItalic.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-ExtralightItalic.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-ExtralightItalic.ttf') format('truetype');
+  font-weight: 200;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-Light.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-Light.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-LightItalic.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-LightItalic.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-Italic.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-Italic.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-Medium.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-Medium.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-MediumItalic.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-MediumItalic.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-Bold.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-Bold.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-BoldItalic.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-BoldItalic.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-Extrabold.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-Extrabold.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-Extrabold.ttf') format('truetype');
+  font-weight: 800;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/supreme/Supreme-ExtraboldItalic.woff2') format('woff2'),
+       url('/assets/fonts/supreme/Supreme-ExtraboldItalic.woff') format('woff'),
+       url('/assets/fonts/supreme/Supreme-ExtraboldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-display: swap;
+  font-style: italic;
+}
+@font-face {
+    font-family: 'Audiowide';
+    src: url('/assets/fonts/audiowide/Audiowide-Regular.woff2') format('woff2'),
+        url('/assets/fonts/audiowide/Audiowide-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+  font-family: 'Abel';
+  src: url('/assets/fonts/abel/Abel-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-ExtraLight.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-ExtraLight.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-ExtraBoldItalic.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-ExtraBoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-Black.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-ExtraLightItalic.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-ExtraLightItalic.woff') format('woff');
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-ExtraBold.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-ExtraBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-BoldItalic.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-Bold.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-BlackItalic.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-BlackItalic.woff') format('woff');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-Light.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-SemiBold.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-LightItalic.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-LightItalic.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-Regular.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-Medium.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-MediumItalic.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-MediumItalic.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-Italic.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-SemiBoldItalic.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-SemiBoldItalic.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-ThinItalic.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-ThinItalic.woff') format('woff');
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sofia Sans';
+    src: url('/assets/fonts/sofia-sans/SofiaSans-Thin.woff2') format('woff2'),
+        url('/assets/fonts/sofia-sans/SofiaSans-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* Inter Font */
+
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/inter/Inter_18pt-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+

@@ -1,0 +1,2 @@
+ALTER TABLE "categories" RENAME COLUMN "cover_image" TO "cover_image_id";--> statement-breakpoint
+ALTER TABLE "categories" ADD CONSTRAINT "categories_cover_image_id_media_id_fk" FOREIGN KEY ("cover_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;

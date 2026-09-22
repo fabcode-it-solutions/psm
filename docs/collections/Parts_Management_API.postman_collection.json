@@ -1,0 +1,1162 @@
+{
+  "info": {
+    "name": "Parts Management System API",
+    "description": "Complete API collection for Parts Management System with automated token management. This collection includes pre-request scripts for CSRF tokens and test scripts for authentication token extraction.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "type": "noauth"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "csrf_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "Get CSRF Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Save CSRF token to collection variable",
+                  "if (pm.response.code === 200) {",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.csrfToken) {",
+                  "        pm.collectionVariables.set('csrf_token', jsonData.csrfToken);",
+                  "        console.log('✅ CSRF Token saved:', jsonData.csrfToken);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/security/csrf",
+              "host": ["{{base_url}}"],
+              "path": ["api", "security", "csrf"]
+            },
+            "description": "Get CSRF token for protected API calls. This token is automatically saved to collection variables."
+          },
+          "response": []
+        },
+        {
+          "name": "Sign Up",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Get CSRF token before request",
+                  "if (!pm.collectionVariables.get('csrf_token')) {",
+                  "    pm.sendRequest({",
+                  "        url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                  "        method: 'GET'",
+                  "    }, (err, res) => {",
+                  "        if (!err && res.code === 200) {",
+                  "            const data = res.json();",
+                  "            pm.collectionVariables.set('csrf_token', data.csrfToken);",
+                  "            console.log('✅ CSRF Token fetched:', data.csrfToken);",
+                  "        }",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.user) {",
+                  "        pm.collectionVariables.set('user_id', jsonData.user.id);",
+                  "        console.log('✅ User created, ID:', jsonData.user.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-CSRF-Token",
+                "value": "{{csrf_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"username\": \"testuser\",\n  \"password\": \"SecurePass123!\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/signup",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "signup"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sign In",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Get fresh CSRF token",
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                  "    method: 'GET'",
+                  "}, (err, res) => {",
+                  "    if (!err && res.code === 200) {",
+                  "        const data = res.json();",
+                  "        pm.collectionVariables.set('csrf_token', data.csrfToken);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Extract session token from cookies",
+                  "if (pm.response.code === 200) {",
+                  "    const cookies = pm.cookies.toObject();",
+                  "    ",
+                  "    // NextAuth session token",
+                  "    if (cookies['next-auth.session-token']) {",
+                  "        pm.collectionVariables.set('auth_token', cookies['next-auth.session-token']);",
+                  "        console.log('✅ Auth token saved from cookies');",
+                  "    }",
+                  "    ",
+                  "    // Save user data",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.user) {",
+                  "        pm.collectionVariables.set('user_id', jsonData.user.id);",
+                  "        console.log('✅ User ID:', jsonData.user.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-CSRF-Token",
+                "value": "{{csrf_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Admin123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/signin",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "signin"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify OTP",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Get CSRF token",
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                  "    method: 'GET'",
+                  "}, (err, res) => {",
+                  "    if (!err) {",
+                  "        const data = res.json();",
+                  "        pm.collectionVariables.set('csrf_token', data.csrfToken);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-CSRF-Token",
+                "value": "{{csrf_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/verify-otp",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "verify-otp"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Forgot Password",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                  "    method: 'GET'",
+                  "}, (err, res) => {",
+                  "    if (!err) {",
+                  "        pm.collectionVariables.set('csrf_token', res.json().csrfToken);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-CSRF-Token",
+                "value": "{{csrf_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/forgot-password",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "forgot-password"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sign Out",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/signout",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "signout"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🏷️ Metafields",
+      "item": [
+        {
+          "name": "Definitions",
+          "item": [
+            {
+              "name": "List Definitions",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/metafields/definitions?entityType=part&namespace=custom&includeGlobal=true",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "metafields", "definitions"],
+                  "query": [
+                    {
+                      "key": "entityType",
+                      "value": "part"
+                    },
+                    {
+                      "key": "namespace",
+                      "value": "custom"
+                    },
+                    {
+                      "key": "includeGlobal",
+                      "value": "true"
+                    },
+                    {
+                      "key": "categoryId",
+                      "value": "1",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Definition",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "pm.sendRequest({",
+                      "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                      "    method: 'GET'",
+                      "}, (err, res) => {",
+                      "    if (!err) {",
+                      "        pm.collectionVariables.set('csrf_token', res.json().csrfToken);",
+                      "    }",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-CSRF-Token",
+                    "value": "{{csrf_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityType\": \"part\",\n  \"namespace\": \"custom\",\n  \"key\": \"warranty_period\",\n  \"name\": \"Warranty Period\",\n  \"description\": \"Warranty duration in months\",\n  \"type\": \"number\",\n  \"isRequired\": false,\n  \"validationRules\": {\n    \"min\": 1,\n    \"max\": 120\n  },\n  \"helpText\": \"Enter warranty duration (1-120 months)\",\n  \"placeholder\": \"12\",\n  \"defaultValue\": \"12\",\n  \"displayOrder\": 5,\n  \"isActive\": true,\n  \"appliesGlobally\": true,\n  \"categoryIds\": []\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/metafields/definitions",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "metafields", "definitions"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Definition",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "pm.sendRequest({",
+                      "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                      "    method: 'GET'",
+                      "}, (err, res) => {",
+                      "    if (!err) {",
+                      "        pm.collectionVariables.set('csrf_token', res.json().csrfToken);",
+                      "    }",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-CSRF-Token",
+                    "value": "{{csrf_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 1,\n  \"name\": \"Warranty Duration (Months)\",\n  \"isRequired\": true,\n  \"defaultValue\": \"24\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/metafields/definitions",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "metafields", "definitions"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Definition",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "pm.sendRequest({",
+                      "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                      "    method: 'GET'",
+                      "}, (err, res) => {",
+                      "    if (!err) {",
+                      "        pm.collectionVariables.set('csrf_token', res.json().csrfToken);",
+                      "    }",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "X-CSRF-Token",
+                    "value": "{{csrf_token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/metafields/definitions/1",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "metafields", "definitions", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Values",
+          "item": [
+            {
+              "name": "Get Values",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/metafields/values?entityType=part&entityId=123",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "metafields", "values"],
+                  "query": [
+                    {
+                      "key": "entityType",
+                      "value": "part"
+                    },
+                    {
+                      "key": "entityId",
+                      "value": "123"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create/Update Single Value",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "pm.sendRequest({",
+                      "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                      "    method: 'GET'",
+                      "}, (err, res) => {",
+                      "    if (!err) {",
+                      "        pm.collectionVariables.set('csrf_token', res.json().csrfToken);",
+                      "    }",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-CSRF-Token",
+                    "value": "{{csrf_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityType\": \"part\",\n  \"entityId\": 123,\n  \"metafieldDefinitionId\": 1,\n  \"value\": \"Carbon Fiber\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/metafields/values",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "metafields", "values"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Bulk Create/Update Values",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "pm.sendRequest({",
+                      "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                      "    method: 'GET'",
+                      "}, (err, res) => {",
+                      "    if (!err) {",
+                      "        pm.collectionVariables.set('csrf_token', res.json().csrfToken);",
+                      "    }",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-CSRF-Token",
+                    "value": "{{csrf_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityType\": \"part\",\n  \"entityId\": 123,\n  \"values\": [\n    {\n      \"metafieldDefinitionId\": 1,\n      \"value\": \"Aluminum\"\n    },\n    {\n      \"metafieldDefinitionId\": 2,\n      \"value\": 36\n    },\n    {\n      \"metafieldDefinitionId\": 3,\n      \"value\": true\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/metafields/values",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "metafields", "values"]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "🔧 Parts",
+      "item": [
+        {
+          "name": "List Parts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/parts?page=1&limit=20&search=brake&status=active&sortBy=createdAt&sortOrder=desc",
+              "host": ["{{base_url}}"],
+              "path": ["api", "parts"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "search",
+                  "value": "brake"
+                },
+                {
+                  "key": "status",
+                  "value": "active"
+                },
+                {
+                  "key": "categoryId",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "brandId",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Part",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/parts/123",
+              "host": ["{{base_url}}"],
+              "path": ["api", "parts", "123"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Part",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                  "    method: 'GET'",
+                  "}, (err, res) => {",
+                  "    if (!err) {",
+                  "        pm.collectionVariables.set('csrf_token', res.json().csrfToken);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-CSRF-Token",
+                "value": "{{csrf_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Oil Filter - Premium\",\n  \"slug\": \"oil-filter-premium\",\n  \"description\": \"High-quality oil filter for Toyota engines\",\n  \"status\": \"active\",\n  \"userId\": 1,\n  \"listed\": true,\n  \"brandId\": 1,\n  \"modelId\": 5,\n  \"typeId\": 10,\n  \"categoryIds\": [2],\n  \"manufacturerId\": 1,\n  \"variants\": [\n    {\n      \"title\": \"Standard\",\n      \"sku\": \"OF-PREM-001-STD\",\n      \"price\": 15.99,\n      \"quantity\": 200\n    }\n  ],\n  \"defaultVariant\": {\n    \"title\": \"Standard\",\n    \"sku\": \"OF-PREM-001\",\n    \"price\": 15.99,\n    \"compareAtPrice\": 24.99,\n    \"quantity\": 200,\n    \"weight\": 0.5,\n    \"weightUnit\": \"kg\"\n  },\n  \"media\": [],\n  \"proMetafields\": [],\n  \"tags\": [\"oil filter\", \"premium\", \"toyota\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/parts",
+              "host": ["{{base_url}}"],
+              "path": ["api", "parts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Part",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                  "    method: 'GET'",
+                  "}, (err, res) => {",
+                  "    if (!err) {",
+                  "        pm.collectionVariables.set('csrf_token', res.json().csrfToken);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-CSRF-Token",
+                "value": "{{csrf_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Oil Filter - Premium Updated\",\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/parts/123",
+              "host": ["{{base_url}}"],
+              "path": ["api", "parts", "123"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Part",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                  "    method: 'GET'",
+                  "}, (err, res) => {",
+                  "    if (!err) {",
+                  "        pm.collectionVariables.set('csrf_token', res.json().csrfToken);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-CSRF-Token",
+                "value": "{{csrf_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/parts/123",
+              "host": ["{{base_url}}"],
+              "path": ["api", "parts", "123"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Marketplace Search",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                  "    method: 'GET'",
+                  "}, (err, res) => {",
+                  "    if (!err) {",
+                  "        pm.collectionVariables.set('csrf_token', res.json().csrfToken);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-CSRF-Token",
+                "value": "{{csrf_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 20,\n  \"search\": \"brake\",\n  \"status\": \"active\",\n  \"listed\": true,\n  \"sortBy\": \"createdAt\",\n  \"sortOrder\": \"desc\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/parts/marketplace",
+              "host": ["{{base_url}}"],
+              "path": ["api", "parts", "marketplace"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🚗 Car Management",
+      "item": [
+        {
+          "name": "Brands",
+          "item": [
+            {
+              "name": "List Brands",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/cars/brands?page=1&limit=20&search=toyota&sortBy=name&includeBuilds=true",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "admin", "cars", "brands"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "search",
+                      "value": "toyota"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "name"
+                    },
+                    {
+                      "key": "includeBuilds",
+                      "value": "true"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Brand",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "pm.sendRequest({",
+                      "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                      "    method: 'GET'",
+                      "}, (err, res) => {",
+                      "    if (!err) {",
+                      "        pm.collectionVariables.set('csrf_token', res.json().csrfToken);",
+                      "    }",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-CSRF-Token",
+                    "value": "{{csrf_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Tesla\",\n  \"description\": \"American electric vehicle manufacturer\",\n  \"logoMediaId\": 10,\n  \"imageMediaId\": 11,\n  \"status\": \"active\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/admin/cars/brands",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "admin", "cars", "brands"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Models",
+          "item": [
+            {
+              "name": "List Models",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/cars/models?page=1&limit=20&brandId=1",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "admin", "cars", "models"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "brandId",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Types",
+          "item": [
+            {
+              "name": "List Types",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/cars/types?page=1&limit=20&modelId=1",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "admin", "cars", "types"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "modelId",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "👤 User Management",
+      "item": [
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/user",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Profile",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest({",
+                  "    url: pm.collectionVariables.get('base_url') + '/api/security/csrf',",
+                  "    method: 'GET'",
+                  "}, (err, res) => {",
+                  "    if (!err) {",
+                  "        pm.collectionVariables.set('csrf_token', res.json().csrfToken);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-CSRF-Token",
+                "value": "{{csrf_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"updates\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Smith\",\n    \"bio\": \"Updated bio\",\n    \"address\": {\n      \"addressLine1\": \"456 New St\",\n      \"city\": \"Melbourne\",\n      \"state\": \"VIC\",\n      \"postalCode\": \"3000\"\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/user",
+              "host": ["{{base_url}}"],
+              "path": ["api", "user"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔍 Search",
+      "item": [
+        {
+          "name": "Universal Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/search/universe?q=brake pad",
+              "host": ["{{base_url}}"],
+              "path": ["api", "search", "universe"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "brake pad"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/search?search=toyota",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "search"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "toyota"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔒 Security",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/security/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "security", "health"]
+            },
+            "description": "Check database connection and pool status"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global pre-request script",
+          "// This runs before every request",
+          "",
+          "// Log current environment",
+          "console.log('📍 Base URL:', pm.collectionVariables.get('base_url'));",
+          "",
+          "// Check if CSRF token exists for state-changing methods",
+          "const method = pm.request.method;",
+          "if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {",
+          "    const csrf = pm.collectionVariables.get('csrf_token');",
+          "    if (!csrf) {",
+          "        console.warn('⚠️ No CSRF token found. Requesting will fetch one automatically.');",
+          "    } else {",
+          "        console.log('✅ CSRF token present');",
+          "    }",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global test script",
+          "// This runs after every request",
+          "",
+          "// Log response time",
+          "console.log('⏱️ Response time:', pm.response.responseTime + 'ms');",
+          "",
+          "// Log status code",
+          "const statusCode = pm.response.code;",
+          "if (statusCode >= 200 && statusCode < 300) {",
+          "    console.log('✅ Success:', statusCode);",
+          "} else if (statusCode >= 400 && statusCode < 500) {",
+          "    console.log('⚠️ Client error:', statusCode);",
+          "} else if (statusCode >= 500) {",
+          "    console.log('❌ Server error:', statusCode);",
+          "}",
+          "",
+          "// Check for common errors",
+          "if (statusCode === 401) {",
+          "    console.log('🔐 Unauthorized - You may need to sign in first');",
+          "} else if (statusCode === 403) {",
+          "    console.log('🚫 Forbidden - Check CSRF token or permissions');",
+          "} else if (statusCode === 429) {",
+          "    console.log('⏸️ Rate limit exceeded - Wait before retrying');",
+          "}"
+        ]
+      }
+    }
+  ]
+}
