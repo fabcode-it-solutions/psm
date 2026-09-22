@@ -1,0 +1,1 @@
+ALTER TABLE "user_reports" RENAME COLUMN "report_id" TO "report_id_seq";

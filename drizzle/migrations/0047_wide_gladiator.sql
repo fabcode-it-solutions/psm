@@ -1,0 +1,1 @@
+CREATE INDEX "part_id_idx" ON "parts" USING btree ("partid");

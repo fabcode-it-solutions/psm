@@ -1,0 +1,1 @@
+ALTER TABLE "wishlist_categories" ADD COLUMN "note" varchar(255);

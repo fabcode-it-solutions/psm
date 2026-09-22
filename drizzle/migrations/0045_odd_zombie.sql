@@ -1,0 +1,1 @@
+ALTER TABLE "conversations_messages" ADD COLUMN "is_read" boolean DEFAULT false NOT NULL;

@@ -1,0 +1,1 @@
+ALTER TABLE "addresses" ALTER COLUMN "id" SET DATA TYPE serial;
